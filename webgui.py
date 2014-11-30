@@ -11,6 +11,10 @@ speriod=(15*60)-1
 tempDb='/var/www/templog.db'
 humDb='/var/www/humlog.db'
 
+dbComTa="SELECT * FROM temps"
+dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')"
+dbComHa="SELECT * FROM hums"
+dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','-%s hours')"
 
 
 # print the HTTP header
@@ -21,13 +25,15 @@ def printHTTPheader():
 
 # print the HTML head section
 # arguments are the page title and the table for the chart
-def printHTMLHead(title, table):
+def printHTMLHead(title, table, table2):
     print "<head>"
     print "    <title>"
     print title
     print "    </title>"
     
     print_graph_script(table)
+	
+	print_graph_scriptH(table2)
 
     print "</head>"
 
@@ -35,15 +41,15 @@ def printHTMLHead(title, table):
 # get data from the database
 # if an interval is passed, 
 # return a list of records from the database
-def get_data(interval, dbname):
+def get_data(interval, dbname, dbComA, dbComB):
 
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()
 
     if interval == None:
-        curs.execute("SELECT * FROM temps")
+        curs.execute(dbComA)
     else:
-        curs.execute("SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')" % interval)
+        curs.execute(dbComB % interval)
 #        curs.execute("SELECT * FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hours') AND timestamp<=datetime('2013-09-19 21:31:02')" % interval)
 
     rows=curs.fetchall()
@@ -95,6 +101,31 @@ def print_graph_script(table):
 
     print chart_code % (table)
 
+def print_graph_scriptH(table):
+
+    # google chart snippet
+    chart_code="""
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Time', 'Relative Humidity Living Room'],
+%s
+        ]);
+
+        var options = {
+          title: 'Humidity'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_divH'));
+        chart.draw(data, options);
+      }
+    </script>"""
+
+    print chart_code % (table)
+
 
 
 
@@ -102,6 +133,8 @@ def print_graph_script(table):
 def show_graph():
     print "<h2>Temperature Chart</h2>"
     print '<div id="chart_div" style="width: 900px; height: 500px;"></div>'
+	print "<h2>Humidity Chart</h2>"
+    print '<div id="chart_divH" style="width: 900px; height: 500px;"></div>'
 
 
 
@@ -233,8 +266,9 @@ def main():
         option = str(24)
 
     # get data from the database
-    records=get_data(option, tempDb)
-
+    records=get_data(option, tempDb, dbComTa, dbcomTb)
+	recordsH=get_data(option, tempDb, dbComHa, dbcomHb)
+	
     # print the HTTP header
     printHTTPheader()
 
@@ -244,12 +278,19 @@ def main():
     else:
         print "No data found"
         return
+		
+    if len(recordsH) != 0:
+        # convert the data into a table
+        tableH=create_table(recordsH)
+    else:
+        print "No Humidity data found"
+        
 
     # start printing the page
     print "<html>"
     # print the head section including the table
     # used by the javascript for the chart
-    printHTMLHead("Raspberry Pi Temperature Logger", table)
+    printHTMLHead("Raspberry Pi Temperature Logger", table, tableH)
 
     # print the page body
     print "<body>"
