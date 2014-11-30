@@ -267,7 +267,7 @@ def main():
 
     # get data from the database
     records=get_data(option, tempDb, dbComTa, dbcomTb)
-    recordsH=get_data(option, tempDb, dbComHa, dbcomHb)
+    recordsH=get_data(option, humDb, dbComHa, dbcomHb)
 	
     # print the HTTP header
     printHTTPheader()
