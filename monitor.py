@@ -7,13 +7,13 @@ import glob
 import serial
 
 # global variables
-speriod=(15*60)-1
-dbname='/var/www/templog.db'
+tempDb='/var/www/templog.db'
+humDb='/var/www/humlog.db'
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
-def log_temperature(temp):
+def log_data(temp, dbase):
 
-    conn=sqlite3.connect(dbname)
+    conn=sqlite3.connect(dbase)
     curs=conn.cursor()
 
     curs.execute("INSERT INTO temps values(datetime('now', 'localtime'), (?))", (temp,))
@@ -22,10 +22,11 @@ def log_temperature(temp):
     conn.commit()
 
     conn.close()
+	
 
-def display_data():
+def display_data(dbase):
 
-    conn=sqlite3.connect(dbname)
+    conn=sqlite3.connect(dbase)
     curs=conn.cursor()
 
     for row in curs.execute("SELECT * FROM temps"):
@@ -33,17 +34,20 @@ def display_data():
 
     conn.close()
 
-i=0
 
-while i<8:
-        ser.readline()
-        i=i+1
-line=ser.readline()
-#print line
-data=line.split(";")
-#print data
-temp=((data[0].split(":"))[1])
-print temp
-log_temperature(temp)
-display_data()
+if __name__=="__main__":
+    
+	i=0
+	#throw away 8 lines
+	while i<8:
+		ser.readline()
+		i=i+1
+	line=ser.readline()
+	#print line
+	data=line.split(";")
+	#print data
+	temp=((data[0].split(":"))[1])
+	print temp
+	log_data(temp, tempDb)
+	display_data(tempDb)
 
