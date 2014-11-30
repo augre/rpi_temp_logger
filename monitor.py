@@ -23,6 +23,18 @@ def log_data(temp, dbase):
 
     conn.close()
 	
+def log_data_h(temp, dbase):
+
+    conn=sqlite3.connect(dbase)
+    curs=conn.cursor()
+
+    curs.execute("INSERT INTO hums values(datetime('now', 'localtime'), (?))", (hum,))
+
+    # commit the changes
+    conn.commit()
+
+    conn.close()
+	
 
 def display_data(dbase):
 
@@ -51,7 +63,7 @@ if __name__=="__main__":
 	print temp
 	print hum 
 	log_data(temp, tempDb)
-	log_data(hum, humDb)
+	log_data_h(hum, humDb)
 	display_data(tempDb)
 	display_data(humDb)
 	
