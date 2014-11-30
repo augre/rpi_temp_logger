@@ -33,7 +33,7 @@ def printHTMLHead(title, table, table2):
     
     print_graph_script(table)
 	
-	print_graph_scriptH(table2)
+    print_graph_scriptH(table2)
 
     print "</head>"
 
@@ -133,7 +133,7 @@ def print_graph_scriptH(table):
 def show_graph():
     print "<h2>Temperature Chart</h2>"
     print '<div id="chart_div" style="width: 900px; height: 500px;"></div>'
-	print "<h2>Humidity Chart</h2>"
+    print "<h2>Humidity Chart</h2>"
     print '<div id="chart_divH" style="width: 900px; height: 500px;"></div>'
 
 
@@ -267,7 +267,7 @@ def main():
 
     # get data from the database
     records=get_data(option, tempDb, dbComTa, dbcomTb)
-	recordsH=get_data(option, tempDb, dbComHa, dbcomHb)
+    recordsH=get_data(option, tempDb, dbComHa, dbcomHb)
 	
     # print the HTTP header
     printHTTPheader()
