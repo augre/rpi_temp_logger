@@ -47,7 +47,12 @@ if __name__=="__main__":
 	data=line.split(";")
 	#print data
 	temp=((data[0].split(":"))[1])
+	hum=((data[1].split(":"))[1])
 	print temp
+	print hum 
 	log_data(temp, tempDb)
+	log_data(hum, humDb)
 	display_data(tempDb)
+	display_data(humDb)
+	
 
