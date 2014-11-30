@@ -116,7 +116,7 @@ def print_graph_scriptH(table):
         ]);
 
         var options = {
-          title: 'Humidity'
+          title: 'Relative Humidity'
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_divH'));
@@ -133,7 +133,7 @@ def print_graph_scriptH(table):
 def show_graph():
     print "<h2>Temperature Chart</h2>"
     print '<div id="chart_div" style="width: 900px; height: 500px;"></div>'
-    print "<h2>Humidity Chart</h2>"
+    print "<h2>Relative Humidity Chart</h2>"
     print '<div id="chart_divH" style="width: 900px; height: 500px;"></div>'
 
 
