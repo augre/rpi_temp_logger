@@ -79,7 +79,7 @@ def print_graph_script(table):
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Time', 'Temperature'],
+          ['Time', 'Temperature (C) Living Room'],
 %s
         ]);
 
@@ -264,7 +264,3 @@ def main():
 
 if __name__=="__main__":
     main()
-
-
-
-
