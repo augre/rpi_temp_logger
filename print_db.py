@@ -6,8 +6,8 @@ import time
 import glob
 
 # global variables
-speriod=(15*60)-1
 dbname='/var/www/templog.db'
+humDb='/var/www/humlog.db'
 def display_data():
 
     conn=sqlite3.connect(dbname)
@@ -18,5 +18,17 @@ def display_data():
 
     conn.close()
 
+def display_data_h():
+
+    conn=sqlite3.connect(humDb)
+    curs=conn.cursor()
+
+    for row in curs.execute("SELECT * FROM hums"):
+        print str(row[0])+"     "+str(row[1])
+
+    conn.close()
+
+
 if __name__=="__main__":
 	display_data()
+	display_data_h()
