@@ -8,7 +8,8 @@ import cgitb
 
 # global variables
 speriod=(15*60)-1
-dbname='/var/www/templog.db'
+tempDb='/var/www/templog.db'
+humDb='/var/www/humlog.db'
 
 
 
@@ -34,7 +35,7 @@ def printHTMLHead(title, table):
 # get data from the database
 # if an interval is passed, 
 # return a list of records from the database
-def get_data(interval):
+def get_data(interval, dbname):
 
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()
@@ -106,7 +107,7 @@ def show_graph():
 
 # connect to the db and show some stats
 # argument option is the number of hours
-def show_stats(option):
+def show_stats(option, dbname):
 
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()
@@ -232,7 +233,7 @@ def main():
         option = str(24)
 
     # get data from the database
-    records=get_data(option)
+    records=get_data(option, tempDb)
 
     # print the HTTP header
     printHTTPheader()
@@ -256,7 +257,7 @@ def main():
     print "<hr>"
     print_time_selector(option)
     show_graph()
-    show_stats(option)
+    show_stats(option, tempDb)
     print "</body>"
     print "</html>"
 
