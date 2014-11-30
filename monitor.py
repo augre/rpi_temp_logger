@@ -46,6 +46,15 @@ def display_data(dbase):
 
     conn.close()
 
+def display_data_h(dbase):
+
+    conn=sqlite3.connect(dbase)
+    curs=conn.cursor()
+
+    for row in curs.execute("SELECT * FROM hums"):
+        print str(row[0])+"	"+str(row[1])
+
+    conn.close()
 
 if __name__=="__main__":
     
@@ -65,6 +74,6 @@ if __name__=="__main__":
 	log_data(temp, tempDb)
 	log_data_h(hum, humDb)
 	display_data(tempDb)
-	display_data(humDb)
+	display_data_h(humDb)
 	
 
