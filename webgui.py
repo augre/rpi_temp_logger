@@ -88,12 +88,12 @@ def print_graph_script(table, title0, title1):
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Time',"""+title0[0]+"""],
+          ['Time',"""+title0+"""],
 %s
         ]);
 
         var options = {
-          title: """+title1[1]+"""
+          title: """+title1+"""
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
