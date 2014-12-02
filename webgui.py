@@ -16,6 +16,8 @@ dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')"
 dbComHa="SELECT * FROM hums"
 dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','-%s hours')"
 
+titleT=('Temperature (C) Living Room', 'Temperature')
+titleH=('Relative Humidity Living Room', 'Relative Humidity')
 
 # print the HTTP header
 def printHTTPheader():
@@ -31,9 +33,9 @@ def printHTMLHead(title, table, table2):
     print title
     print "    </title>"
     
-    print_graph_script(table)
+    print_graph_script(table, titleT[0], titleT[1])
 	
-    print_graph_scriptH(table2)
+    print_graph_script(table2, titleH[0], titleH[1])
 
     print "</head>"
 
@@ -76,7 +78,7 @@ def create_table(rows):
 
 # print the javascript to generate the chart
 # pass the table generated from the database info
-def print_graph_script(table):
+def print_graph_script(table, title0, title1):
 
     # google chart snippet
     chart_code="""
@@ -86,12 +88,12 @@ def print_graph_script(table):
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Time', 'Temperature (C) Living Room'],
+          ['Time',"""+title0[0]+"""],
 %s
         ]);
 
         var options = {
-          title: 'Temperature'
+          title: """+title1[1]+"""
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
@@ -101,30 +103,7 @@ def print_graph_script(table):
 
     print chart_code % (table)
 
-def print_graph_scriptH(table):
 
-    # google chart snippet
-    chart_code="""
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Time', 'Relative Humidity Living Room'],
-%s
-        ]);
-
-        var options = {
-          title: 'Relative Humidity'
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('chart_divH'));
-        chart.draw(data, options);
-      }
-    </script>"""
-
-    print chart_code % (table)
 
 
 
