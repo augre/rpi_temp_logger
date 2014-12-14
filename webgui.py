@@ -98,7 +98,7 @@ def print_graph_script(table):
       }
     </script>"""
 
-    print chart_code % (table, titleT[0], titleT[1])
+    print chart_code % (titleT[0], table, titleT[1])
 
 
 
