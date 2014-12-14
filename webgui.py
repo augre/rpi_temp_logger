@@ -87,18 +87,18 @@ def print_graph_script(table):
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Time', 'Temperature (C) Living Room'],
+          ['Time', %s ],
 %s
         ]);
         var options = {
-          title: 'Temperature'
+          title: %s
         };
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
     </script>"""
 
-    print chart_code % (table)
+    print chart_code % (table, titleT[0], titleT[1])
 
 
 
