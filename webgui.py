@@ -87,11 +87,11 @@ def print_graph_script(table):
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Time', %s ],
+          ['Time', '%s' ],
 %s
         ]);
         var options = {
-          title: %s
+          title: '%s'
         };
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
