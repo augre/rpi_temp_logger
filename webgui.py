@@ -81,27 +81,25 @@ def create_table(rows):
 def print_graph_script(table, title0, title1):
 
     # google chart snippet
-    chart_code=("""
+    chart_code="""
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Time',"""+title0+"""],
-%s
+          ['Time', 'Temperature (C) Living Room'],
+{}
         ]);
-
         var options = {
-          title: """+title1+"""
+          title: 'Temperature'
         };
-
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
-    </script>""")
+    </script>"""
 
-    print chart_code % (table)
+    print chart_code.format(table)
 
 
 
