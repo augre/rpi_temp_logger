@@ -34,7 +34,7 @@ def printHTMLHead(title, table, table2):
     print "    </title>"
     
     print_graph_script(table)
-    print_graph_script(table2)
+#     print_graph_script(table2)
 
     print "</head>"
 
@@ -77,7 +77,7 @@ def create_table(rows):
 
 # print the javascript to generate the chart
 # pass the table generated from the database info
-def print_graph_script(table, ):
+def print_graph_script(table):
 
     # google chart snippet
     chart_code="""
