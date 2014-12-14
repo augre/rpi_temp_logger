@@ -34,7 +34,6 @@ def printHTMLHead(title, table, table2):
     print "    </title>"
     
     print_graph_script(table, titleT[0], titleT[1])
-	
     print_graph_script(table2, titleH[0], titleH[1])
 
     print "</head>"
@@ -78,7 +77,7 @@ def create_table(rows):
 
 # print the javascript to generate the chart
 # pass the table generated from the database info
-def print_graph_script(table, title0, title1):
+def print_graph_script(table):
 
     # google chart snippet
     chart_code="""
@@ -89,7 +88,7 @@ def print_graph_script(table, title0, title1):
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Time', 'Temperature (C) Living Room'],
-{}
+%s
         ]);
         var options = {
           title: 'Temperature'
@@ -99,7 +98,7 @@ def print_graph_script(table, title0, title1):
       }
     </script>"""
 
-    print chart_code.format(table)
+    print chart_code % (table)
 
 
 
@@ -245,7 +244,7 @@ def main():
     # get data from the database
     records=get_data(option, tempDb, dbComTa, dbcomTb)
     recordsH=get_data(option, humDb, dbComHa, dbcomHb)
-	
+
     # print the HTTP header
     printHTTPheader()
 
@@ -255,7 +254,7 @@ def main():
     else:
         print "No data found"
         return
-		
+
     if len(recordsH) != 0:
         # convert the data into a table
         tableH=create_table(recordsH)

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import sqlite3
 
-import os
-import time
-import glob
+# import os
+# import time
+# import glob
 import serial
 
 # global variables
@@ -22,7 +22,7 @@ def log_data(temp, dbase):
     conn.commit()
 
     conn.close()
-	
+
 def log_data_h(temp, dbase):
 
     conn=sqlite3.connect(dbase)
@@ -34,7 +34,6 @@ def log_data_h(temp, dbase):
     conn.commit()
 
     conn.close()
-	
 
 def display_data(dbase):
 
@@ -58,22 +57,22 @@ def display_data_h(dbase):
 
 if __name__=="__main__":
     
-	i=0
-	#throw away 8 lines
-	while i<8:
-		ser.readline()
-		i=i+1
-	line=ser.readline()
-	#print line
-	data=line.split(";")
-	#print data
-	temp=((data[0].split(":"))[1])
-	hum=((data[1].split(":"))[1])
-	print temp
-	print hum 
-	log_data(temp, tempDb)
-	log_data_h(hum, humDb)
-	display_data(tempDb)
-	display_data_h(humDb)
-	
+    i=0
+    #throw away 8 lines
+    while i<8:
+        ser.readline()
+        i=i+1
+    line=ser.readline()
+    #print line
+    data=line.split(";")
+    #print data
+    temp=((data[0].split(":"))[1])
+    hum=((data[1].split(":"))[1])
+    print temp
+    print hum 
+    log_data(temp, tempDb)
+    log_data_h(hum, humDb)
+    display_data(tempDb)
+    display_data_h(humDb)
+    
 
