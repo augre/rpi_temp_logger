@@ -242,8 +242,8 @@ def main():
         option = str(24)
 
     # get data from the database
-    records=get_data(option, tempDb, dbComTa, dbcomTb)
-    recordsH=get_data(option, humDb, dbComHa, dbcomHb)
+    records=get_data(str(6), tempDb, dbComTa, dbcomTb)
+    recordsH=get_data(str(6), humDb, dbComHa, dbcomHb)
 
     # print the HTTP header
     printHTTPheader()
