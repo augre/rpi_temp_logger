@@ -16,8 +16,8 @@ dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')"
 dbComHa="SELECT * FROM hums"
 dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','-%s hours')"
 
-titleT=('Temperature (C) Living Room', 'Temperature')
-titleH=('Relative Humidity Living Room', 'Relative Humidity')
+titleT=('Temperature (C) Living Room', 'Temperature', 'chart_div')
+titleH=('Relative Humidity Living Room', 'Relative Humidity', 'chart_divH')
 
 # print the HTTP header
 def printHTTPheader():
@@ -33,8 +33,8 @@ def printHTMLHead(title, table, table2):
     print title
     print "    </title>"
     
-    print_graph_script(table)
-#     print_graph_script(table2)
+    print_graph_script(table, titleT)
+    print_graph_script(table2, titleH)
 
     print "</head>"
 
@@ -77,7 +77,7 @@ def create_table(rows):
 
 # print the javascript to generate the chart
 # pass the table generated from the database info
-def print_graph_script(table):
+def print_graph_script(table, title):
 
     # google chart snippet
     chart_code="""
@@ -93,12 +93,12 @@ def print_graph_script(table):
         var options = {
           title: '%s'
         };
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.LineChart(document.getElementById('%s'));
         chart.draw(data, options);
       }
     </script>"""
 
-    print chart_code % (titleT[0], table, titleT[1])
+    print chart_code % (title[0], table, title[1], title[2])
 
 
 
