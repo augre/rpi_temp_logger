@@ -6,18 +6,7 @@ import cgi
 import cgitb
 
 
-# global variables
-speriod=(15*60)-1
-tempDb='/var/www/templog.db'
-humDb='/var/www/humlog.db'
 
-dbComTa="SELECT * FROM temps"
-dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')"
-dbComHa="SELECT * FROM hums"
-dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','-%s hours')"
-
-titleT=('Temperature (C) Living Room', 'Temperature', 'chart_div')
-titleH=('Relative Humidity Living Room', 'Relative Humidity', 'chart_divH')
 
 # print the HTTP header
 def printHTTPheader():
@@ -27,7 +16,7 @@ def printHTTPheader():
 
 # print the HTML head section
 # arguments are the page title and the table for the chart
-def printHTMLHead(title, table, table2):
+def printHTMLHead(title, table, table2, titleT, titleH):
     print "<head>"
     print "    <title>"
     print title
@@ -232,6 +221,16 @@ def get_option():
 # main function
 # This is where the program starts 
 def main():
+    tempDb='/var/www/templog.db'
+    humDb='/var/www/humlog.db'
+    
+    dbComTa="SELECT * FROM temps"
+    dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')"
+    dbComHa="SELECT * FROM hums"
+    dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','-%s hours')"
+    
+    titleT=('Temperature (C) Living Room', 'Temperature', 'chart_div')
+    titleH=('Relative Humidity Living Room', 'Relative Humidity', 'chart_divH')
 
     cgitb.enable()
 
@@ -242,8 +241,8 @@ def main():
         option = str(24)
 
     # get data from the database
-    records=get_data(str(6), tempDb, dbComTa, dbcomTb)
-    recordsH=get_data(str(6), humDb, dbComHa, dbcomHb)
+    records=get_data(option, tempDb, dbComTa, dbcomTb)
+    recordsH=get_data(option, humDb, dbComHa, dbcomHb)
 
     # print the HTTP header
     printHTTPheader()
@@ -260,13 +259,14 @@ def main():
         tableH=create_table(recordsH)
     else:
         print "No Humidity data found"
+        return
         
 
     # start printing the page
     print "<html>"
     # print the head section including the table
     # used by the javascript for the chart
-    printHTMLHead("Raspberry Pi Temperature Logger", table, tableH)
+    printHTMLHead("Raspberry Pi Temperature Logger", table, tableH, titleT, titleH)
 
     # print the page body
     print "<body>"
