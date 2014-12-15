@@ -252,7 +252,8 @@ def main():
         table=create_table(records)
     else:
         print "No data found"
-        return
+        print option
+	return
 
     if len(recordsH) != 0:
         # convert the data into a table
