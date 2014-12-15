@@ -236,6 +236,7 @@ def main():
 
     # get options that may have been passed to this script
     option=get_option()
+    #option=str(12)
 
     if option is None:
         option = str(24)
@@ -251,7 +252,7 @@ def main():
         # convert the data into a table
         table=create_table(records)
     else:
-        print "No data found"
+        print "No data found<br>"
         print option
 	return
 
@@ -260,6 +261,7 @@ def main():
         tableH=create_table(recordsH)
     else:
         print "No Humidity data found"
+        print option
         return
         
 
