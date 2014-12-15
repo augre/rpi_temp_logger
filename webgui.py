@@ -225,9 +225,9 @@ def main():
     humDb='/var/www/humlog.db'
     
     dbComTa="SELECT * FROM temps"
-    dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','-%s hours')"
+    dbcomTb="SELECT * FROM temps WHERE timestamp>datetime('now','localtime', '-%s hours')"
     dbComHa="SELECT * FROM hums"
-    dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','-%s hours')"
+    dbcomHb="SELECT * FROM hums WHERE timestamp>datetime('now','localtime', '-%s hours')"
     
     titleT=('Temperature (C) Living Room', 'Temperature', 'chart_div')
     titleH=('Relative Humidity Living Room', 'Relative Humidity', 'chart_divH')
@@ -254,13 +254,13 @@ def main():
     else:
         print "No data found<br>"
         print option
-	return
+        return
 
     if len(recordsH) != 0:
         # convert the data into a table
         tableH=create_table(recordsH)
     else:
-        print "No Humidity data found"
+        print "No Humidity data found<br>"
         print option
         return
         
